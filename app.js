@@ -22,20 +22,49 @@ var UsersRepos = Backbone.Collection.extend({
 				var reposProcessed = 0;
 				var numRepos = usersRepos.length;
 				var repo = usersRepos[i].name;
-				listGeoJSONsInRepo(self.user, usersRepos[i].name, function(GeoJSONs, repo){
-					var repoModel = self.findWhere({name: repo});
-					if(GeoJSONs.length === 0) self.remove(repoModel);
-					else {
-						var collection = new GeoJSONList([]);
-						collection.add(GeoJSONs);
-						repoModel.set('GeoJSONs', collection);
+
+				getSHAforRepo(self.user, usersRepos[i].name, function(repo, response){
+					var masterRepo;
+					for(var i = 0; i < response.length; i++){
+						if(response[i].ref == "refs/heads/master") {
+							masterRepo = true;
+							listGeoJSONsInRepo(self.user, repo, response[i].object.sha, function(GeoJSONs, repo){
+								var repoModel = self.findWhere({name: repo});
+								if(GeoJSONs.length === 0) self.remove(repoModel);
+								else {
+									var collection = new GeoJSONList([]);
+									collection.add(GeoJSONs);
+									repoModel.set('GeoJSONs', collection);
+									console.log(collection);
+								}
+								reposProcessed++;
+								console.log(reposProcessed);
+								if(reposProcessed == numRepos) {
+									console.log('all repos processed');
+									self.trigger('loaded');
+								}
+							})
+						}
 					}
-					reposProcessed++;
-					if(reposProcessed == numRepos) {
-						self.trigger('loaded');
-						foo =  user.pluck("GeoJSONs");
+					if(!masterRepo){
+						listGeoJSONsInRepo(self.user, repo, response[0].object.sha, function(GeoJSONs, repo){
+								var repoModel = self.findWhere({name: repo});
+								if(GeoJSONs.length === 0) self.remove(repoModel);
+								else {
+									var collection = new GeoJSONList([]);
+									collection.add(GeoJSONs);
+									repoModel.set('GeoJSONs', collection);
+									console.log(collection);
+								}
+								reposProcessed++;
+								console.log(reposProcessed);
+								if(reposProcessed == numRepos) {
+									console.log('all repos processed');
+									self.trigger('loaded');
+								}
+							})
 					}
-				})
+				})	
 			}
 		})
 	}
@@ -97,22 +126,30 @@ var UserSearchView = Backbone.View.extend({
 })
 
 
-function listGeoJSONsInRepo(user, repo, callback){
-  var url = 'https://api.github.com/repos/' + user + '/' + repo + '/contents/';
+function listGeoJSONsInRepo(user, repo, sha, callback){
+  var url = 'https://api.github.com/repos/' + user + '/' + repo + '/git/trees/' + sha + '?recursive=1';
+  // var url = 'https://api.github.com/repos/' + user + '/' + repo + '/contents/';
   CORSRequest(url, function(response){
+    // console.log(response)
     var extension = '.geojson';
     var regEx = new RegExp('\\b' + extension + '\\b');
     var GeoJSONs = [];
-    for(var i =0; i < response.length; i++){
-      if(regEx.test(response[i].name)) { 
-      	GeoJSONs.push({path: response[i].path, size: response[i].size, raw: 'https://raw.github.com/'+ user + '/' + repo + '/master/' + response[i].path + '/' });
+    for(var i =0; i < response.tree.length; i++){
+     // console.log(response.tree);
+      if(regEx.test(response.tree[i].path)) { 
+      	GeoJSONs.push({path: response.tree[i].path, size: response.tree[i].size, raw: 'https://raw.github.com/'+ user + '/' + repo + '/master/' + response.tree[i].path + '/' });
       }
     }
-    // console.log(GeoJSONs);
     if(callback) callback(GeoJSONs, repo);
   })
 }
 
+function getSHAforRepo(user, repo, callback){
+	var url = "https://api.github.com/repos/" + user + "/" + repo + "/git/refs";
+	CORSRequest(url, function(response){
+		callback(repo, response);
+	})
+}
 function CORSRequest(url, callback, header){
   var createCORSRequest = function(method, url) {
       var xhr = new XMLHttpRequest();
