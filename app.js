@@ -4,6 +4,12 @@ var GeoJSONList = Backbone.Collection.extend({
 	model: GeoJSON
 });
 
+var AppRouter = Backbone.Router.extend({
+	routes: {
+		":username" : "getUser"
+	}
+});
+
 var Repo = Backbone.Model.extend({});
 var UsersRepos = Backbone.Collection.extend({
 	model: Repo,
@@ -116,16 +122,30 @@ var UserSearchView = Backbone.View.extend({
 	},
 	render: function(){
 		$('#userInfo').html(this.template());
-		$('#UserSearchForm').submit(function(e) {   
-			var user = new UsersRepos([],{user: $("#GHUserNameSearch").val()});
+		$('#UserSearchForm').submit(function(e) {
+			var username = $("#GHUserNameSearch").val();
+			var user = new UsersRepos([],{user: username});
     		user.fetch(); 
         	var userView = new UserInfoView({collection: user});
         	$('#userInfo').html('loading..');
 		  	e.preventDefault(); 
+		  	document.location.hash = username;
 		});
 	}
 })
 
+var app_router = new AppRouter;
+app_router.on('route:getUser', function(username){
+	console.log(username);
+	$(document).ready(function(){   
+		var user = new UsersRepos([],{user: username});
+	    user.fetch(); 
+	    var userView = new UserInfoView({collection: user});
+	    $('#userInfo').html('loading..');
+	 });
+});
+
+Backbone.history.start();
 
 function listGeoJSONsInRepo(user, repo, sha, callback){
   var url = 'https://api.github.com/repos/' + user + '/' + repo + '/git/trees/' + sha + '?recursive=1';
