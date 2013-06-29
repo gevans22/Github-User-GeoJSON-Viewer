@@ -136,9 +136,11 @@ function listGeoJSONsInRepo(user, repo, sha, callback){
     var regEx = new RegExp('^.*\.(geojson|topojson|GEOJSON|TOPOJSON)$'); 
     var GeoJSONs = [];
     for(var i =0; i < response.tree.length; i++){
-     // console.log(response.tree);
+     console.log(response);
       if(regEx.test(response.tree[i].path)) { 
-      	GeoJSONs.push({path: response.tree[i].path, size: response.tree[i].size, raw: 'https://raw.github.com/'+ user + '/' + repo + '/master/' + response.tree[i].path + '/' });
+      	var name = response.tree[i].path.replace(new RegExp('[^\"]+/'), '');
+      	console.log(name);
+      	GeoJSONs.push({path: response.tree[i].path, name: name, size: response.tree[i].size, raw: 'https://raw.github.com/'+ user + '/' + repo + '/master/' + response.tree[i].path + '/' });
       }
     }
     if(callback) callback(GeoJSONs, repo);

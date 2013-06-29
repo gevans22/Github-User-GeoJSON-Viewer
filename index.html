@@ -55,7 +55,7 @@ $(document).ready(function(){
    <div id='GeoJSONList' class="btn-group" data-toggle="buttons-radio">
    {{#each GeoJSONs}}
       {{#each models}}
-          <button type="button" class="btn btn-small geojson_link" ghraw='{{attributes.raw}}'> {{attributes.path}} </button>
+          <button type="button" class="btn btn-small geojson_link" ghraw='{{attributes.raw}}'> {{attributes.name}} </button>
           <br> <br>
       {{/each}}
     {{/each}}
