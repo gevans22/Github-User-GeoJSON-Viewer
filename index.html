@@ -50,7 +50,7 @@ $(document).ready(function(){
 
 
  <script type='text/x-handlebars-template' id='UserViewTemplate'>
-   <span> <b> {{user}} </b> has {{numGeoJSONs}} GeoJSONs in their repositories </span> <br> <br>
+   <span> <a href='http://www.github.com/{{user}}'><b> {{user}} </b> </a> has {{numGeoJSONs}} GeoJSONs in their Github repositories </span> <br> <br>
    GeoJSONs (Click to show map): <br> <br>  
    <div id='GeoJSONList' class="btn-group" data-toggle="buttons-radio">
    {{#each GeoJSONs}}
