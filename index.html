@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html> 
+<head>
+      <link rel="stylesheet" href="css/bootstrap.min.css" />
+      <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+      <script type="text/javascript" src="js/underscore.js"></script>
+      <script type="text/javascript" src="js/backbone.js"></script>
+      <script type="text/javascript" src="js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="js/handlebars-1.0.rc.1.js"></script>
+      <script type="text/javascript" src="app.js"></script>
+      <title>Github GeoJSON Viewer</title>
+      <style type="text/css">
+]
+      #ifrm{
+        top: 5%;
+        height: 80%;
+        width: 70%;
+        position: fixed;
+      }
+      #userInfo{
+        position: absolute;
+        right: 0px;
+        width: 25%;
+        top: 2.5%;
+      }
+      .datalink{
+        padding-left: 15px;
+      }
+      </style>
+</head>
+<body>
+
+<div id='map'>
+</div>
+
+<div id='userInfo'>
+</div>
+<script type="text/javascript">
+var mapIFrame;
+$(document).ready(function(){    
+    mapIFrame = new GeojsonIFrame({});
+    var userSearch = new UserSearchView();
+    userSearch.render();
+
+});
+</script>
+
+
+ <script type='text/x-handlebars-template' id='UserViewTemplate'>
+   <span> <b> {{user}} </b> has {{numGeoJSONs}} GeoJSONs in their repositories </span> <br> <br>
+   GeoJSONs (Click to show map): <br> <br>  
+   <div id='GeoJSONList' class="btn-group" data-toggle="buttons-radio">
+   {{#each GeoJSONs}}
+      {{#each models}}
+          <button type="button" class="btn btn-small geojson_link" ghraw='{{attributes.raw}}'> {{attributes.path}} </button>
+          <br> <br>
+      {{/each}}
+    {{/each}}
+    </div>
+ </script>
+
+ <script type='text/x-handlebars-template' id='UserSearchTemplate'>
+   <div id="usersearch" class="navbar">
+        <form class="navbar-search pull-left" id='UserSearchForm'>
+            <input id='GHUserNameSearch' name='usernameSearch' type="text" class="search-query" placeholder="Github Username">
+        </form>
+    </div>
+ </script>
+</body>
+</html>
