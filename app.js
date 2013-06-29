@@ -93,6 +93,7 @@ var UserInfoView = Backbone.View.extend({
 		for(var i = 0; i < this.collection.length; i++){
 			templateData.numGeoJSONs += this.collection.at(i).get('GeoJSONs').length;
 		}
+		console.log(templateData.GeoJSONs);
 		$('#userInfo').html(this.template(templateData));
 		$('.geojson_link').click(function(){
 			var rawURL = $(this).attr('ghraw');
@@ -131,8 +132,8 @@ function listGeoJSONsInRepo(user, repo, sha, callback){
   // var url = 'https://api.github.com/repos/' + user + '/' + repo + '/contents/';
   CORSRequest(url, function(response){
     // console.log(response)
-    var extension = '.geojson';
-    var regEx = new RegExp('\\b' + extension + '\\b');
+    // var extension = '\.geojson';
+    var regEx = new RegExp('^.*\.(geojson|topojson|GEOJSON|TOPOJSON)$'); 
     var GeoJSONs = [];
     for(var i =0; i < response.tree.length; i++){
      // console.log(response.tree);
@@ -182,3 +183,8 @@ function CORSRequest(url, callback, header){
   xhr.setRequestHeader('Authorization', 'token 43c3a3e7af262b88906dfd07418f46f934718791');
   xhr.send();
 }
+
+Handlebars.registerHelper('allowedSize', function(number){
+  if(number > 5000000) return false;
+  else return true;
+});
