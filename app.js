@@ -139,7 +139,7 @@ var UserSearchView = Backbone.View.extend({
         	var userView = new UserInfoView({collection: user});
         	$('#usersearch').html('loading..');
 		  	e.preventDefault(); 
-		  	document.location.hash = 'user/' + username;
+		  	document.location.hash = 'user/' + 	username;
 		});
 	}
 })
@@ -165,7 +165,7 @@ app_router.on('route:defaultRoute', function(username){
 	 });
 });
 
-Backbone.history.start();
+Backbone.history.start({pushState: true});
 
 function listGeoJSONsInRepo(user, repo, sha, callback){
   var url = 'https://api.github.com/repos/' + user + '/' + repo + '/git/trees/' + sha + '?recursive=1';
