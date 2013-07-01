@@ -10,7 +10,20 @@
       <script type="text/javascript" src="app.js"></script>
       <title>Github GeoJSON Viewer</title>
       <style type="text/css">
+<<<<<<< HEAD
 ]
+=======
+      #map{
+        width: 70%;
+        height: 80%;
+      }
+      #mapHelp{
+        position: fixed;
+        top: 40%;
+        left: 20%;
+        font-style: italic;
+      }
+>>>>>>> gh-pages
       #ifrm{
         top: 5%;
         height: 80%;
@@ -21,10 +34,39 @@
         position: absolute;
         right: 0px;
         width: 25%;
+<<<<<<< HEAD
         top: 2.5%;
       }
       .datalink{
         padding-left: 15px;
+=======
+        height: 97.5%;
+        top: 2.5%;
+      }
+      .datalink{
+        position: absolute;
+        padding-left: 10px;
+      }
+      #userSearchDiv{
+        position: absolute;
+        left: 25%;
+        top: 30%;
+        font-size: large;
+      }
+      #usersearch{
+        padding-top: 15px;
+        left: 30%;
+        position: absolute;
+      }
+      .loading{
+        text-align: center;
+        font-weight: bold;
+      }
+      .TweetButton{
+        bottom: 3.5%;
+        left: 2%;
+        position: fixed;
+>>>>>>> gh-pages
       }
       </style>
 </head>
@@ -35,6 +77,14 @@
 
 <div id='userInfo'>
 </div>
+<<<<<<< HEAD
+=======
+
+<div id='tweetDiv'>
+</div>
+<div id='userSearchDiv'>
+</div>
+>>>>>>> gh-pages
 <script type="text/javascript">
 var mapIFrame;
 $(document).ready(function(){    
@@ -47,6 +97,7 @@ $(document).ready(function(){
 
 
  <script type='text/x-handlebars-template' id='UserViewTemplate'>
+<<<<<<< HEAD
    <span> <b> {{user}} </b> has {{numGeoJSONs}} GeoJSONs in their repositories </span> <br> <br>
    GeoJSONs (Click to show map): <br> <br>  
    <div id='GeoJSONList' class="btn-group" data-toggle="buttons-radio">
@@ -60,11 +111,51 @@ $(document).ready(function(){
  </script>
 
  <script type='text/x-handlebars-template' id='UserSearchTemplate'>
+=======
+   <span> <a href='http://www.github.com/{{user}}'><b> {{user}}</b> </a>  has 
+    {{#if greaterThanOne}} {{numGeoJSONs}} Geo/TopoJSON files{{/if}} 
+    {{#if equalToOne}} a Geo/TopoJSON file{{/if}} 
+    {{#if equalToZero}} no GeoJSON or TopoJSON files {{/if}} in their Github repositories </span> <br> <br> 
+   <div id='GeoJSONList' class="btn-group" data-toggle="buttons-radio">
+   {{#each GeoJSONs}}
+      {{#each models}}
+          {{#if attributes.over10mb}} <span class='label label-info'> {{attributes.name}} </span> 
+          {{else}} <button type="button" class="btn btn-small geojson_link" ghraw='{{attributes.raw}}'> {{attributes.name}} </button>
+          {{/if}}
+           <a class="btn btn-small datalink" href='{{attributes.blob}}' target="_blank"> Data </a> <br> <br>
+      {{/each}}
+    {{/each}}
+    </div> <br> 
+    <span class='label label-info'> Files over Github 10mb display limit </span>
+    <br> <br>
+ </script>
+
+ <script type='text/x-handlebars-template' id='TweetTemplate'>
+ <a class="TweetButton" href='https://twitter.com/share?text=See%20all%20the%20Geo%2FTopoJSON%20files%20in%20{{user}}%27s%20github%20repositories.%20http%3A%2F%2Fgevans22.github.io%2FGithub-User-GeoJSON-Viewer%2F%23{{user}}' class="twitter-share-button" data-lang="en" target="_blank">Tweet</a>
+ </script>
+
+ <script type='text/x-handlebars-template' id='UserSearchTemplate'>
+   Search a <b> Github Users </b> repositories for <b> GeoJSON and TopoJSON </b> files.
+>>>>>>> gh-pages
    <div id="usersearch" class="navbar">
         <form class="navbar-search pull-left" id='UserSearchForm'>
             <input id='GHUserNameSearch' name='usernameSearch' type="text" class="search-query" placeholder="Github Username">
         </form>
     </div>
  </script>
+<<<<<<< HEAD
+=======
+
+ <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-42113582-1', 'gevans22.github.io');
+  ga('send', 'pageview');
+
+</script>
+>>>>>>> gh-pages
 </body>
 </html>
