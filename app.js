@@ -165,7 +165,7 @@ app_router.on('route:defaultRoute', function(username){
 	 });
 });
 
-Backbone.history.start({pushState: true});
+Backbone.history.start();
 
 function listGeoJSONsInRepo(user, repo, sha, callback){
   var url = 'https://api.github.com/repos/' + user + '/' + repo + '/git/trees/' + sha + '?recursive=1';
