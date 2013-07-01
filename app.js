@@ -151,7 +151,13 @@ function listGeoJSONsInRepo(user, repo, sha, callback){
     for(var i =0; i < response.tree.length; i++){
       if(regEx.test(response.tree[i].path)) { 
       	var name = response.tree[i].path.replace(new RegExp('[^\"]+/'), '');
-      	GeoJSONs.push({path: response.tree[i].path, name: name, size: response.tree[i].size, raw: 'https://raw.github.com/'+ user + '/' + repo + '/master/' + response.tree[i].path + '/' });
+      	GeoJSONs.push({
+      		path: response.tree[i].path, 
+      		name: name, 
+      		size: response.tree[i].size, 
+      		raw: 'https://raw.github.com/'+ user + '/' + repo + '/master/' + response.tree[i].path + '/',
+      		blob: 'https://www.github.com/' + user + '/' + repo + '/blob/master/' + response.tree[i].path + '/'
+      		});
       }
     }
     if(callback) callback(GeoJSONs, repo);

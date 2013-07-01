@@ -33,7 +33,8 @@
         top: 2.5%;
       }
       .datalink{
-        padding-left: 15px;
+        position: absolute;
+        padding-left: 10px;
       }
       #userSearchDiv{
         position: absolute;
@@ -81,7 +82,7 @@ $(document).ready(function(){
    <div id='GeoJSONList' class="btn-group" data-toggle="buttons-radio">
    {{#each GeoJSONs}}
       {{#each models}}
-          <button type="button" class="btn btn-small geojson_link" ghraw='{{attributes.raw}}'> {{attributes.name}} </button>
+          <button type="button" class="btn btn-small geojson_link" ghraw='{{attributes.raw}}'> {{attributes.name}} </button> <a class="btn btn-small datalink" href='{{attributes.blob}}' target="_blank"> Data </a>
           <br> <br>
       {{/each}}
     {{/each}}
