@@ -10,9 +10,6 @@
       <script type="text/javascript" src="app.js"></script>
       <title>Github GeoJSON Viewer</title>
       <style type="text/css">
-<<<<<<< HEAD
-]
-=======
       #map{
         width: 70%;
         height: 80%;
@@ -23,7 +20,6 @@
         left: 20%;
         font-style: italic;
       }
->>>>>>> gh-pages
       #ifrm{
         top: 5%;
         height: 80%;
@@ -34,12 +30,6 @@
         position: absolute;
         right: 0px;
         width: 25%;
-<<<<<<< HEAD
-        top: 2.5%;
-      }
-      .datalink{
-        padding-left: 15px;
-=======
         height: 97.5%;
         top: 2.5%;
       }
@@ -66,7 +56,6 @@
         bottom: 3.5%;
         left: 2%;
         position: fixed;
->>>>>>> gh-pages
       }
       </style>
 </head>
@@ -77,14 +66,11 @@
 
 <div id='userInfo'>
 </div>
-<<<<<<< HEAD
-=======
 
 <div id='tweetDiv'>
 </div>
 <div id='userSearchDiv'>
 </div>
->>>>>>> gh-pages
 <script type="text/javascript">
 var mapIFrame;
 $(document).ready(function(){    
@@ -97,21 +83,6 @@ $(document).ready(function(){
 
 
  <script type='text/x-handlebars-template' id='UserViewTemplate'>
-<<<<<<< HEAD
-   <span> <b> {{user}} </b> has {{numGeoJSONs}} GeoJSONs in their repositories </span> <br> <br>
-   GeoJSONs (Click to show map): <br> <br>  
-   <div id='GeoJSONList' class="btn-group" data-toggle="buttons-radio">
-   {{#each GeoJSONs}}
-      {{#each models}}
-          <button type="button" class="btn btn-small geojson_link" ghraw='{{attributes.raw}}'> {{attributes.path}} </button>
-          <br> <br>
-      {{/each}}
-    {{/each}}
-    </div>
- </script>
-
- <script type='text/x-handlebars-template' id='UserSearchTemplate'>
-=======
    <span> <a href='http://www.github.com/{{user}}'><b> {{user}}</b> </a>  has 
     {{#if greaterThanOne}} {{numGeoJSONs}} Geo/TopoJSON files{{/if}} 
     {{#if equalToOne}} a Geo/TopoJSON file{{/if}} 
@@ -136,15 +107,12 @@ $(document).ready(function(){
 
  <script type='text/x-handlebars-template' id='UserSearchTemplate'>
    Search a <b> Github Users </b> repositories for <b> GeoJSON and TopoJSON </b> files.
->>>>>>> gh-pages
    <div id="usersearch" class="navbar">
         <form class="navbar-search pull-left" id='UserSearchForm'>
             <input id='GHUserNameSearch' name='usernameSearch' type="text" class="search-query" placeholder="Github Username">
         </form>
     </div>
  </script>
-<<<<<<< HEAD
-=======
 
  <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -156,6 +124,5 @@ $(document).ready(function(){
   ga('send', 'pageview');
 
 </script>
->>>>>>> gh-pages
 </body>
 </html>
