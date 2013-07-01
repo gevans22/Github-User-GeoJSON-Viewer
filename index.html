@@ -15,7 +15,7 @@
         height: 80%;
       }
       #mapHelp{
-        position: absolute;
+        position: fixed;
         top: 40%;
         left: 20%;
         font-style: italic;
@@ -30,6 +30,7 @@
         position: absolute;
         right: 0px;
         width: 25%;
+        height: 97.5%;
         top: 2.5%;
       }
       .datalink{
@@ -51,6 +52,11 @@
         text-align: center;
         font-weight: bold;
       }
+      .TweetButton{
+        bottom: 3.5%;
+        left: 2%;
+        position: fixed;
+      }
       </style>
 </head>
 <body>
@@ -61,6 +67,8 @@
 <div id='userInfo'>
 </div>
 
+<div id='tweetDiv'>
+</div>
 <div id='userSearchDiv'>
 </div>
 <script type="text/javascript">
@@ -88,8 +96,13 @@ $(document).ready(function(){
            <a class="btn btn-small datalink" href='{{attributes.blob}}' target="_blank"> Data </a> <br> <br>
       {{/each}}
     {{/each}}
-    </div> <br> <br> <br>
-    <span class='label label-info'> Files over Github 10mb display limit </span> 
+    </div> <br> 
+    <span class='label label-info'> Files over Github 10mb display limit </span>
+    <br> <br>
+ </script>
+
+ <script type='text/x-handlebars-template' id='TweetTemplate'>
+ <a class="TweetButton" href='https://twitter.com/share?text=See%20all%20the%20Geo%2FTopoJSON%20files%20in%20{{user}}%27s%20github%20repositories.%20http%3A%2F%2Fgevans22.github.io%2FGithub-User-GeoJSON-Viewer%2F%23{{user}}' class="twitter-share-button" data-lang="en" target="_blank">Tweet</a>
  </script>
 
  <script type='text/x-handlebars-template' id='UserSearchTemplate'>

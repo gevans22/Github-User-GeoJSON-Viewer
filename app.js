@@ -81,6 +81,7 @@ var GeojsonIFrame = Backbone.View.extend({
 var UserInfoView = Backbone.View.extend({
 	initialize: function(){
 		this.template = Handlebars.compile($('#UserViewTemplate').html());
+		this.tweetTemplate = Handlebars.compile($('#TweetTemplate').html());
 		this.listenTo(this.collection, 'loaded', this.render);
 	},
 	render: function(){
@@ -107,6 +108,7 @@ var UserInfoView = Backbone.View.extend({
 		$('#userSearchDiv').empty();
 		$('#userInfo').html(this.template(templateData));
 		if(!templateData.equalToZero) $('#map').html("<div id='mapHelp'> Click a file to show it's map </div>")
+		$('#tweetDiv').html(this.tweetTemplate(templateData));
 		$('.geojson_link').click(function(){
 			var rawURL = $(this).attr('ghraw');
 			var GeoJsonModel;
@@ -211,3 +213,5 @@ function CORSRequest(url, callback, header){
   xhr.send();
 }
 
+//Twitter tweet button javascript
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
