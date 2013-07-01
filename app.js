@@ -74,7 +74,9 @@ var UsersRepos = Backbone.Collection.extend({
 var GeojsonIFrame = Backbone.View.extend({
 	el: '#map',
 	render: function(GeoJSON){
-		$('#map').html('<iframe id="ifrm" src="https://render.github.com/view/geojson?url=' + GeoJSON.get('raw') + '"> </iframe>');
+		var scriptInsert = '<script src="https://embed.github.com/view/geojson/' + GeoJSON.get('user') + '/' + GeoJSON.get('repo') + '/master/' + GeoJSON.get('path') + '"> </script>'
+		console.log(scriptInsert);
+		$('#map').html(scriptInsert);
 	}
 })
 var mapIFrame;
@@ -180,7 +182,9 @@ function listGeoJSONsInRepo(user, repo, sha, callback){
       		name: name, 
       		size: response.tree[i].size, 
       		raw: 'https://raw.github.com/'+ user + '/' + repo + '/master/' + response.tree[i].path + '/',
-      		blob: 'https://www.github.com/' + user + '/' + repo + '/blob/master/' + response.tree[i].path + '/'
+      		blob: 'https://www.github.com/' + user + '/' + repo + '/blob/master/' + response.tree[i].path + '/',
+      		repo: repo,
+      		user: user
       		});
       }
     }
