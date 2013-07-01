@@ -49,12 +49,19 @@
         position: absolute;
       }
       .loading{
+        left: 20%;
+        top: 15%;
         text-align: center;
         font-weight: bold;
       }
       .TweetButton{
         bottom: 3.5%;
-        left: 2%;
+        left: 10px;
+        position: fixed;
+      }
+      #newSearch{
+        bottom: 3.5%;
+        left: 60px;
         position: fixed;
       }
       </style>
@@ -72,13 +79,7 @@
 <div id='userSearchDiv'>
 </div>
 <script type="text/javascript">
-var mapIFrame;
-$(document).ready(function(){    
-    mapIFrame = new GeojsonIFrame({});
-    var userSearch = new UserSearchView();
-    userSearch.render();
 
-});
 </script>
 
 
@@ -102,7 +103,8 @@ $(document).ready(function(){
  </script>
 
  <script type='text/x-handlebars-template' id='TweetTemplate'>
- <a class="TweetButton" href='https://twitter.com/share?text=See%20all%20the%20Geo%2FTopoJSON%20files%20in%20{{user}}%27s%20github%20repositories.%20http%3A%2F%2Fgevans22.github.io%2FGithub-User-GeoJSON-Viewer%2F%23{{user}}' class="twitter-share-button" data-lang="en" target="_blank">Tweet</a>
+ <a class="TweetButton" href='https://twitter.com/share?text=See%20all%20the%20Geo%2FTopoJSON%20files%20in%20{{user}}%27s%20github%20repositories.%20http%3A%2F%2Fgithubgeo.galenevans.org%2F%23{{user}}' class="twitter-share-button" data-lang="en" target="_blank">Tweet | </a>
+  <a id='newSearch' href="#">Search New User </a>
  </script>
 
  <script type='text/x-handlebars-template' id='UserSearchTemplate'>

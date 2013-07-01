@@ -6,7 +6,8 @@ var GeoJSONList = Backbone.Collection.extend({
 
 var AppRouter = Backbone.Router.extend({
 	routes: {
-		":username" : "getUser"
+		"user/:username" : "getUser",
+		"*path": 'defaultRoute'
 	}
 });
 
@@ -76,7 +77,10 @@ var GeojsonIFrame = Backbone.View.extend({
 		$('#map').html('<iframe id="ifrm" src="https://render.github.com/view/geojson?url=' + GeoJSON.get('raw') + '"> </iframe>');
 	}
 })
-
+var mapIFrame;
+$(document).ready(function(){    
+    mapIFrame = new GeojsonIFrame({});
+});
 
 var UserInfoView = Backbone.View.extend({
 	initialize: function(){
@@ -125,7 +129,6 @@ var UserSearchView = Backbone.View.extend({
 	el: '#userSearchDiv',
 	initialize: function(){
 		this.template = Handlebars.compile($('#UserSearchTemplate').html());
-
 	},
 	render: function(){
 		$(this.el).html(this.template());
@@ -136,10 +139,12 @@ var UserSearchView = Backbone.View.extend({
         	var userView = new UserInfoView({collection: user});
         	$('#usersearch').html('loading..');
 		  	e.preventDefault(); 
-		  	document.location.hash = username;
+		  	document.location.hash = 'user/' + username;
 		});
 	}
 })
+
+
 
 var app_router = new AppRouter;
 app_router.on('route:getUser', function(username){
@@ -147,7 +152,16 @@ app_router.on('route:getUser', function(username){
 		var user = new UsersRepos([],{user: username});
 	    user.fetch(); 
 	    var userView = new UserInfoView({collection: user});
-	    $('#usersearch').html('<span class="loading"> loading.. </span>');
+	    $('#userSearchDiv').html('<span class="loading"> loading.. </span>');
+	 });
+});
+app_router.on('route:defaultRoute', function(username){
+	$('#userInfo').empty();
+	$('#map').empty();
+	$('#tweetDiv').empty();
+	$(document).ready(function(){   
+   		var userSearch = new UserSearchView();
+    	userSearch.render();
 	 });
 });
 
