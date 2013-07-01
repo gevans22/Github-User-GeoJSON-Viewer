@@ -82,11 +82,14 @@ $(document).ready(function(){
    <div id='GeoJSONList' class="btn-group" data-toggle="buttons-radio">
    {{#each GeoJSONs}}
       {{#each models}}
-          <button type="button" class="btn btn-small geojson_link" ghraw='{{attributes.raw}}'> {{attributes.name}} </button> <a class="btn btn-small datalink" href='{{attributes.blob}}' target="_blank"> Data </a>
-          <br> <br>
+          {{#if attributes.over10mb}} <span class='label label-info'> {{attributes.name}} </span> 
+          {{else}} <button type="button" class="btn btn-small geojson_link" ghraw='{{attributes.raw}}'> {{attributes.name}} </button>
+          {{/if}}
+           <a class="btn btn-small datalink" href='{{attributes.blob}}' target="_blank"> Data </a> <br> <br>
       {{/each}}
     {{/each}}
-    </div>
+    </div> <br> <br> <br>
+    <span class='label label-info'> Files over Github 10mb display limit </span> 
  </script>
 
  <script type='text/x-handlebars-template' id='UserSearchTemplate'>

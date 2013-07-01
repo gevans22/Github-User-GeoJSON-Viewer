@@ -95,7 +95,15 @@ var UserInfoView = Backbone.View.extend({
 		}
 		if(templateData.numGeoJSONs == 1) templateData.equalToOne = true;
 		if(templateData.numGeoJSONs > 1)  templateData.greaterThanOne = true;
-		if(templateData.numGeoJSONs == 0) templateData.equalToZero = true;	
+		if(templateData.numGeoJSONs == 0) templateData.equalToZero = true;
+		for(var i = 0; i < templateData.GeoJSONs.length; i++) {
+			for(var k = 0; k < templateData.GeoJSONs[i].models.length; k++) {
+				// console.log(templateData.GeoJSONs[i].models[k].attributes.size);
+				if(templateData.GeoJSONs[i].models[k].attributes.size > 10000000) {
+					templateData.GeoJSONs[i].models[k].attributes.over10mb = true;
+				 }
+			}
+		}	
 		$('#userSearchDiv').empty();
 		$('#userInfo').html(this.template(templateData));
 		if(!templateData.equalToZero) $('#map').html("<div id='mapHelp'> Click a file to show it's map </div>")
