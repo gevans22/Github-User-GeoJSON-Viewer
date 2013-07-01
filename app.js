@@ -41,12 +41,9 @@ var UsersRepos = Backbone.Collection.extend({
 									var collection = new GeoJSONList([]);
 									collection.add(GeoJSONs);
 									repoModel.set('GeoJSONs', collection);
-									console.log(collection);
 								}
 								reposProcessed++;
-								console.log(reposProcessed);
 								if(reposProcessed == numRepos) {
-									console.log('all repos processed');
 									self.trigger('loaded');
 								}
 							})
@@ -60,12 +57,9 @@ var UsersRepos = Backbone.Collection.extend({
 									var collection = new GeoJSONList([]);
 									collection.add(GeoJSONs);
 									repoModel.set('GeoJSONs', collection);
-									console.log(collection);
 								}
 								reposProcessed++;
-								console.log(reposProcessed);
 								if(reposProcessed == numRepos) {
-									console.log('all repos processed');
 									self.trigger('loaded');
 								}
 							})
@@ -99,12 +93,15 @@ var UserInfoView = Backbone.View.extend({
 		for(var i = 0; i < this.collection.length; i++){
 			templateData.numGeoJSONs += this.collection.at(i).get('GeoJSONs').length;
 		}
-		console.log(templateData.GeoJSONs);
+		if(templateData.numGeoJSONs == 1) templateData.equalToOne = true;
+		if(templateData.numGeoJSONs > 1)  templateData.greaterThanOne = true;
+		if(templateData.numGeoJSONs == 0) templateData.equalToZero = true;	
+		$('#userSearchDiv').empty();
 		$('#userInfo').html(this.template(templateData));
+		if(!templateData.equalToZero) $('#map').html("<div id='mapHelp'> Click a file to show it's map </div>")
 		$('.geojson_link').click(function(){
 			var rawURL = $(this).attr('ghraw');
 			var GeoJsonModel;
-			console.log(rawURL);
 			for(var i = 0; i < templateData.GeoJSONs.length; i++){
 				var temp = templateData.GeoJSONs[i].findWhere({raw: $(this).attr('ghraw')});
 				if(temp) GeoJsonModel = temp;
@@ -115,19 +112,19 @@ var UserInfoView = Backbone.View.extend({
 });
 
 var UserSearchView = Backbone.View.extend({
-	el: '#userInfo',
+	el: '#userSearchDiv',
 	initialize: function(){
 		this.template = Handlebars.compile($('#UserSearchTemplate').html());
 
 	},
 	render: function(){
-		$('#userInfo').html(this.template());
+		$(this.el).html(this.template());
 		$('#UserSearchForm').submit(function(e) {
 			var username = $("#GHUserNameSearch").val();
 			var user = new UsersRepos([],{user: username});
     		user.fetch(); 
         	var userView = new UserInfoView({collection: user});
-        	$('#userInfo').html('loading..');
+        	$('#usersearch').html('loading..');
 		  	e.preventDefault(); 
 		  	document.location.hash = username;
 		});
@@ -136,12 +133,11 @@ var UserSearchView = Backbone.View.extend({
 
 var app_router = new AppRouter;
 app_router.on('route:getUser', function(username){
-	console.log(username);
 	$(document).ready(function(){   
 		var user = new UsersRepos([],{user: username});
 	    user.fetch(); 
 	    var userView = new UserInfoView({collection: user});
-	    $('#userInfo').html('loading..');
+	    $('#usersearch').html('<span class="loading"> loading.. </span>');
 	 });
 });
 
@@ -149,17 +145,12 @@ Backbone.history.start();
 
 function listGeoJSONsInRepo(user, repo, sha, callback){
   var url = 'https://api.github.com/repos/' + user + '/' + repo + '/git/trees/' + sha + '?recursive=1';
-  // var url = 'https://api.github.com/repos/' + user + '/' + repo + '/contents/';
   CORSRequest(url, function(response){
-    // console.log(response)
-    // var extension = '\.geojson';
     var regEx = new RegExp('^.*\.(geojson|topojson|GEOJSON|TOPOJSON)$'); 
     var GeoJSONs = [];
     for(var i =0; i < response.tree.length; i++){
-     console.log(response);
       if(regEx.test(response.tree[i].path)) { 
       	var name = response.tree[i].path.replace(new RegExp('[^\"]+/'), '');
-      	console.log(name);
       	GeoJSONs.push({path: response.tree[i].path, name: name, size: response.tree[i].size, raw: 'https://raw.github.com/'+ user + '/' + repo + '/master/' + response.tree[i].path + '/' });
       }
     }
@@ -206,7 +197,3 @@ function CORSRequest(url, callback, header){
   xhr.send();
 }
 
-Handlebars.registerHelper('allowedSize', function(number){
-  if(number > 5000000) return false;
-  else return true;
-});

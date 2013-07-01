@@ -14,6 +14,12 @@
         width: 70%;
         height: 80%;
       }
+      #mapHelp{
+        position: absolute;
+        top: 40%;
+        left: 20%;
+        font-style: italic;
+      }
       #ifrm{
         top: 5%;
         height: 80%;
@@ -29,6 +35,21 @@
       .datalink{
         padding-left: 15px;
       }
+      #userSearchDiv{
+        position: absolute;
+        left: 25%;
+        top: 30%;
+        font-size: large;
+      }
+      #usersearch{
+        padding-top: 15px;
+        left: 30%;
+        position: absolute;
+      }
+      .loading{
+        text-align: center;
+        font-weight: bold;
+      }
       </style>
 </head>
 <body>
@@ -37,6 +58,9 @@
 </div>
 
 <div id='userInfo'>
+</div>
+
+<div id='userSearchDiv'>
 </div>
 <script type="text/javascript">
 var mapIFrame;
@@ -50,8 +74,10 @@ $(document).ready(function(){
 
 
  <script type='text/x-handlebars-template' id='UserViewTemplate'>
-   <span> <a href='http://www.github.com/{{user}}'><b> {{user}}</b> </a>  has {{numGeoJSONs}} GeoJSONs in their Github repositories </span> <br> <br>
-   GeoJSONs (Click to show map): <br> <br>  
+   <span> <a href='http://www.github.com/{{user}}'><b> {{user}}</b> </a>  has 
+    {{#if greaterThanOne}} {{numGeoJSONs}} Geo/TopoJSON files{{/if}} 
+    {{#if equalToOne}} a Geo/TopoJSON file{{/if}} 
+    {{#if equalToZero}} no GeoJSON or TopoJSON files {{/if}} in their Github repositories </span> <br> <br> 
    <div id='GeoJSONList' class="btn-group" data-toggle="buttons-radio">
    {{#each GeoJSONs}}
       {{#each models}}
@@ -63,6 +89,7 @@ $(document).ready(function(){
  </script>
 
  <script type='text/x-handlebars-template' id='UserSearchTemplate'>
+   Search a <b> Github Users </b> repositories for <b> GeoJSON and TopoJSON </b> files.
    <div id="usersearch" class="navbar">
         <form class="navbar-search pull-left" id='UserSearchForm'>
             <input id='GHUserNameSearch' name='usernameSearch' type="text" class="search-query" placeholder="Github Username">
